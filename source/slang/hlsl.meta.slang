@@ -24433,13 +24433,11 @@ struct DispatchNodeInputRecord
         }
     }
 
-    /// Provide an access to a record object that only holds a single record.
+    /// Provide an access to an input payload at given index, for coalescing nodes
     [ForceInline]
     [require(hlsl_spirv)] // [require(hlsl_spirv, broadcasting)]
-    NodePayloadPtr<RecordType> Get()
+    NodePayloadPtr<RecordType> Get(uint index)
     {
-        int index = 0;
-
         __target_switch
         {
         case hlsl: __intrinsic_asm ".Get";
@@ -24449,6 +24447,14 @@ struct DispatchNodeInputRecord
                 result : $$NodePayloadPtr<RecordType> = OpAccessChain $payload $index;
             };
         }
+    }
+
+    /// Provide an access to a record object that only holds a single record.
+    [ForceInline]
+    [require(hlsl_spirv)] // [require(hlsl_spirv, broadcasting)]
+    NodePayloadPtr<RecordType> Get()
+    {
+        return Get(0);
     }
 
     [ForceInline]
