@@ -431,6 +431,7 @@ static bool isValidAtomicDest(bool skipFuncParamValidation, IRInst* dst)
         case AddressSpace::GroupShared:
         case AddressSpace::StorageBuffer:
         case AddressSpace::UserPointer:
+        case AddressSpace::NodePayloadAMDX:
             return true;
         default:
             break;
